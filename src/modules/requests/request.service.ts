@@ -8,7 +8,6 @@ export class RequestService {
         customerId,
         providerId: data.providerId,
         serviceType: data.serviceType,
-        scheduledAt: data.scheduledAt,
         isRecurring: data.isRecurring ?? false,
       },
       include: {
@@ -58,5 +57,23 @@ export class RequestService {
 
   async remove(id: number) {
     return prisma.serviceRequest.delete({ where: { id } });
+  }
+
+  // Now here is the functionality to assign a provider to a request (like for client side the provider accepts the service request and starts working on it). Also change status and sceheduleAt
+  async assignProvider(
+    requestId: number,
+    providerId: number,
+    sceheduledAt: Date
+  ) {
+    return prisma.serviceRequest.update({
+      where: { id: requestId },
+      data: { providerId, status: "IN_PROGRESS", scheduledAt: sceheduledAt },
+      include: {
+        customer: true,
+        provider: true,
+        feedback: true,
+        recurringDetail: true,
+      },
+    });
   }
 }

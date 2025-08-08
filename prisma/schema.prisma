@@ -12,7 +12,7 @@ model User {
   id              Int               @id @default(autoincrement())
   name            String
   email           String            @unique
-  password        String
+  password        String            
   contact         String?
   address         String?
   createdAt       DateTime          @default(now())
@@ -48,7 +48,7 @@ model ServiceRequest {
   providerId      Int?
   serviceType     ServiceType
   status          RequestStatus     @default(PENDING)
-  scheduledAt     DateTime
+  scheduledAt     DateTime?
   completedAt     DateTime?
   isRecurring     Boolean           @default(false)
   createdAt       DateTime          @default(now())

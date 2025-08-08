@@ -55,4 +55,20 @@ export class RequestController {
       next(err);
     }
   }
+
+  // functionality for assigning a provider to a request
+  async assignProvider(req: Request, res: Response, next: NextFunction) {
+    try {
+      const requestId = Number(req.params.id);
+      const { providerId, scheduledAt } = req.body;
+      const assigned = await service.assignProvider(
+        requestId,
+        providerId,
+        scheduledAt
+      );
+      res.json(assigned);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
